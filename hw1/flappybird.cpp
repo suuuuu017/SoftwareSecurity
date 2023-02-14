@@ -165,7 +165,7 @@ int main() {
         //{
         //    printf("%d\n", 0x12121212);
         //}
-        collision = collision == 2 ? 1 : collision; // <========================
+        // collision = collision == 2 ? 1 : collision; // <========================
 		if (collision) {
 			if (collision == DOUBLE) {
 				isOver = true;
@@ -180,7 +180,7 @@ int main() {
 
 		collision = controlCollision(pipeCol2, birdCol, birdRow, crackStart2,
 									 crackFinish2);
-		collision = collision == 2 ? 1 : collision; // // <========================
+		//collision = collision == 2 ? 1 : collision; // // <========================
 		if (collision) {
 			if (collision == DOUBLE) {
 				isOver = true;
@@ -196,7 +196,7 @@ int main() {
 		if (birdRow > row - 4 /*|| birdRow == 2*/) {
 			// TOUCH THE GROUND
 			isOver = true;
-            isOver = false; // <========================
+            //isOver = false; // <========================
 		}
 
 		if (pipeCol1 == 0) {
