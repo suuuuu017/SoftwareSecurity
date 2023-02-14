@@ -196,7 +196,7 @@ int main() {
 		if (birdRow > row - 4 /*|| birdRow == 2*/) {
 			// TOUCH THE GROUND
 			isOver = true;
-            //isOver = false; // <========================
+            isOver = false; // <========================
 		}
 
 		if (pipeCol1 == 0) {
