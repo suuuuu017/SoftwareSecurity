@@ -160,11 +160,15 @@ int main() {
 
 		//     1d06:       e8 80 08 00 00          callq  258b <_Z16controlCollisioniiiii>
 
+		//1c80:       e8 3c 09 00 00          callq  25c1 <_Z16controlCollisioniiiii>
+		//1c80 is before 12121212
+		//1d3c:       e8 80 08 00 00          callq  25c1 <_Z16controlCollisioniiiii>
+
 		collision = controlCollision(pipeCol1, birdCol, birdRow, crackStart1,
 									 crackFinish1); 
-        {
-            printf("%d\n", 0x12121212);
-        }
+//        {
+//            printf("%d\n", 0x12121212);
+//        }
         // collision = collision == 2 ? 1 : collision; // <========================
 		if (collision) {
 			if (collision == DOUBLE) {
