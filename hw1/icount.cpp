@@ -88,32 +88,16 @@ VOID EveryInst(ADDRINT ip,
                ADDRINT * regRDX)
 {
     log("[Real Execution] EAX: [%lx]\n", *regRAX); // read value
-   // ...
     *regRAX = 0; // new value
-   // ...
-}
-
-VOID RecordMemWriteBefore(VOID * ip, VOID * addr, UINT32 size)
-{
-    log("[Real Execution] [MEMWRITE(BEFORE)] %p, memaddr: %p, size: %d\n", ip, addr, size);
-    unsigned char* p = (unsigned char*)addr;
-    for( unsigned  int i = 0; i < size; i++ ) {
-        log("%02x ", (unsigned char)*p);
-        p++;
-    }
-    log("\n");
 }
 
 VOID RecordMemWriteAfter(VOID * ip, VOID * addr, UINT32 size)
 {
-    log("[Real Execution] [MEMWRITE(AFTER)] %p, memaddr: %p, size: %d\n", ip, addr, size);
     unsigned char* p = (unsigned char*)addr;
     for( unsigned  int i = 0; i < size; i++ ) {
-	*p = 0;
-        log("%02x ", (unsigned char)*p);
+	    *p = 0;
         p++;
     }
-    log("\n");
 }
 
 VOID RecordMemRead(VOID * ip, VOID * addr, UINT32 size)
@@ -163,17 +147,8 @@ VOID Instruction(INS ins, VOID* v) {
 				IARG_MEMORYREAD_SIZE,
 				IARG_END);
 			}
-			// Note that in some architectures a single memory operand can be
-			// both read and written (for instance incl (%eax) on IA-32)
-			// In that case we instrument it once for read and once for write.
 			if (INS_MemoryOperandIsWritten(ins, memOp))
 			{
-			    INS_InsertCall(
-				ins, IPOINT_BEFORE, (AFUNPTR)RecordMemWriteBefore,
-				IARG_INST_PTR,
-				IARG_MEMORYOP_EA, memOp,
-				IARG_MEMORYWRITE_SIZE,
-				IARG_END);
 			    INS_InsertCall(
                                 ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter,
                                 IARG_INST_PTR,
