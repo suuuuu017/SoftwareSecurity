@@ -82,16 +82,6 @@ VOID docount() { ins_count++; }
 
 /* ===================================================================== */
 
-//VOID EveryInst(ADDRINT ip,
-//               ADDRINT * regRAX,
-//               ADDRINT * regRBX,
-//               ADDRINT * regRCX,
-//               ADDRINT * regRDX)
-//{
-//    log("[Real Execution] EAX: [%lx]\n", *regRAX); // read value
-//    *regRAX = 0; // new value
-//}
-
 int IsStackMem_Heuristic(ADDRINT rsp, ADDRINT mem)
 {
     if( (rsp - 0x10000) < mem && mem < (rsp + 0x10000) ) {
@@ -140,84 +130,39 @@ VOID RecordMemWriteAfter(VOID * ip, VOID * addr, UINT32 size, ADDRINT* regRSP)
     LogData(addr, size);
 }
 
-//VOID RecordMemRead(VOID * ip, VOID * addr, UINT32 size)
-//{
-//    log("[Real Execution] [MEMREAD] %p, memaddr: %p, size: %d\n", ip, addr, size);
-//    unsigned char* p = (unsigned char*)addr;
-//    for( unsigned  int i = 0; i < size; i++ ) {
-//        log("%02x ", (unsigned char)*p);
-//        p++;
-//    }
-//    log("\n");
-//}
 
 VOID Instruction(INS ins, VOID* v) {
     string strInst = INS_Disassemble(ins);
     ADDRINT addr = INS_Address(ins);
     
     if(g_bMainExecLoaded){
-	if (g_addrLow <= addr && addr < g_addrHigh){
-	    ADDRINT offset = addr - g_addrLow;
-	    log("[Read/Parse/Translate] [%lx] %s\n", offset, strInst.c_str());
-	    const char* pszInst = strInst.c_str();
-	    if (strstr(pszInst, "push r") == pszInst){
-		    return;
-	    }
+        if (g_addrLow <= addr && addr < g_addrHigh){
+            ADDRINT offset = addr - g_addrLow;
+            log("[Read/Parse/Translate] [%lx] %s\n", offset, strInst.c_str());
+            const char* pszInst = strInst.c_str();
+            if (strstr(pszInst, "push r") == pszInst){
+                return;
+            }
 
-	    if (INS_IsValidForIpointAfter(ins) == TRUE && INS_IsCall(ins) == FALSE && INS_IsMemoryWrite(ins) == TRUE){
-	        UINT32 memOperands = INS_MemoryOperandCount(ins);
-	        for (UINT32 memOp = 0; memOp < memOperands; memOp++){
-	            if(INS_OperandIsImplicit(ins, memOp)){
-	                continue;
-	            }
-	        
-	    
-	    
-	
+            if (INS_IsValidForIpointAfter(ins) == TRUE && INS_IsCall(ins) == FALSE && INS_IsMemoryWrite(ins) == TRUE){
+                UINT32 memOperands = INS_MemoryOperandCount(ins);
+                for (UINT32 memOp = 0; memOp < memOperands; memOp++){
+                    if(INS_OperandIsImplicit(ins, memOp)){
+                        continue;
+                    }
+                    if (INS_MemoryOperandIsWritten(ins, memOp)){
+                    INS_InsertCall(
+                                    ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter,
+                                    IARG_INST_PTR,
+                                    IARG_MEMORYOP_EA, memOp,
+                                    IARG_MEMORYWRITE_SIZE,
+                                    IARG_END);
 
-//	    switch(offset){
-//
-//		case 0x1c65:
-//		case 0x1d0b:
-//		//INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount, IARG_END);
-//	            INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EveryInst, IARG_INST_PTR,
-//                        IARG_REG_REFERENCE, REG_RAX,
-//                        IARG_REG_REFERENCE, REG_RBX,
-//                        IARG_REG_REFERENCE, REG_RCX,
-//                        IARG_REG_REFERENCE, REG_RDX,
-//                        IARG_END);
-//		    break;
-//		case 0x1d9a:
-//		   {
-//		    UINT32 memOperands = INS_MemoryOperandCount(ins);
-//		    // Iterate over each memory operand of the instruction.
-//		    for (UINT32 memOp = 0; memOp < memOperands; memOp++)
-//		    {
-//			if (INS_MemoryOperandIsRead(ins, memOp))
-//			{
-//			    INS_InsertCall(
-//				ins, IPOINT_BEFORE, (AFUNPTR)RecordMemRead,
-//				IARG_INST_PTR,
-//				IARG_MEMORYOP_EA, memOp,
-//				IARG_MEMORYREAD_SIZE,
-//				IARG_END);
-//			}
-			if (INS_MemoryOperandIsWritten(ins, memOp))
-			{
-			    INS_InsertCall(
-                                ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter,
-                                IARG_INST_PTR,
-                                IARG_MEMORYOP_EA, memOp,
-                                IARG_MEMORYWRITE_SIZE,
-                                IARG_END);
-
-			}
-
-	       	    }
-		   }
-//	    }
+                    }
+                }
+            }
         }
-     }
+    }
 }
 /* ===================================================================== */
 
