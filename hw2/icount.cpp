@@ -156,6 +156,7 @@ VOID Instruction(INS ins, VOID* v) {
                                     IARG_INST_PTR,
                                     IARG_MEMORYOP_EA, memOp,
                                     IARG_MEMORYWRITE_SIZE,
+                                    IARG_REG_REFERENCE, REG_RSP,
                                     IARG_END);
 
                     }
@@ -166,7 +167,13 @@ VOID Instruction(INS ins, VOID* v) {
 }
 /* ===================================================================== */
 
-VOID Fini(INT32 code, VOID* v) { cerr << "Count " << ins_count << endl; }
+VOID Fini(INT32 code, VOID* v) {
+    for(int i = 0; i < 0xFFFF; i++){
+        if(g_accessMap[i]){
+            log("offset: %x, max-hitcount %d\n", i, g_accessMap[i]);
+        }
+    }
+}
 
 /* ===================================================================== */
 /* Main                                                                  */
