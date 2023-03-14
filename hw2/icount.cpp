@@ -23,6 +23,7 @@ UINT64 ins_count = 0;
 ADDRINT g_addrLow, g_addrHigh;
 BOOL g_bMainExecLoaded = FALSE;
 FILE* g_fpLog = 0;
+unsigned short g_accessMap[0xFFFF];
 
 #define DBG_LOG g_fpLog
 
@@ -126,7 +127,7 @@ void LogData(VOID* addr, UINT32 size)
     }
 }
 
-VOID RecordMemWriteAfter(VOID * ip, VOID * addr, UINT32 size, ADDINT* regRSP)
+VOID RecordMemWriteAfter(VOID * ip, VOID * addr, UINT32 size, ADDRINT* regRSP)
 {
     ADDRINT offset = (ADDRINT)ip - g_addrLow;
 
@@ -156,19 +157,23 @@ VOID Instruction(INS ins, VOID* v) {
     
     if(g_bMainExecLoaded){
 	if (g_addrLow <= addr && addr < g_addrHigh){
-	    // minus g_addrLow to offset the addr to the same even ASLR is not disabled
-	    log("[Read/Parse/Translate] [%lx] %s\n", addr - g_addrLow, strInst.c_str());
 	    ADDRINT offset = addr - g_addrLow;
+	    log("[Read/Parse/Translate] [%lx] %s\n", offset, strInst.c_str());
 	    const char* pszInst = strInst.c_str();
+	    if (strstr(pszInst, "push r") == pszInst){
+		    return;
+	    }
 
-	    if (INS_IsValidForIpointAfter(ins) == TRUE && INS_IsCall(ins) == FLASE && INS_IsMemoryWrite(ins) == TRUE){
+	    if (INS_IsValidForIpointAfter(ins) == TRUE && INS_IsCall(ins) == FALSE && INS_IsMemoryWrite(ins) == TRUE){
 	        UINT32 memOperands = INS_MemoryOperandCount(ins);
-	        for (UNINT32 memOp = 0; memOp < memOperands; memOp++){
+	        for (UINT32 memOp = 0; memOp < memOperands; memOp++){
 	            if(INS_OperandIsImplicit(ins, memOp)){
 	                continue;
 	            }
-	        }
-	    }
+	        
+	    
+	    
+	
 
 //	    switch(offset){
 //
@@ -197,19 +202,19 @@ VOID Instruction(INS ins, VOID* v) {
 //				IARG_MEMORYREAD_SIZE,
 //				IARG_END);
 //			}
-//			if (INS_MemoryOperandIsWritten(ins, memOp))
-//			{
-//			    INS_InsertCall(
-//                                ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter,
-//                                IARG_INST_PTR,
-//                                IARG_MEMORYOP_EA, memOp,
-//                                IARG_MEMORYWRITE_SIZE,
-//                                IARG_END);
-//
-//			}
+			if (INS_MemoryOperandIsWritten(ins, memOp))
+			{
+			    INS_InsertCall(
+                                ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter,
+                                IARG_INST_PTR,
+                                IARG_MEMORYOP_EA, memOp,
+                                IARG_MEMORYWRITE_SIZE,
+                                IARG_END);
 
-//	       	    }
-//		   }
+			}
+
+	       	    }
+		   }
 //	    }
         }
      }
