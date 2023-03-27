@@ -91,26 +91,6 @@ VOID EveryInst(ADDRINT ip,
     *regRAX = 0; // new value
 }
 
-VOID EveryInst2(ADDRINT ip,
-               ADDRINT * regRAX,
-               ADDRINT * regRBX,
-               ADDRINT * regRCX,
-               ADDRINT * regRDX)
-{
-    log("[Real Execution] EAX: [%lx]\n", *regRAX); // read value
-    *regRAX = 0; // new value
-}
-
-VOID EveryInst3(ADDRINT ip,
-               ADDRINT * regRAX,
-               ADDRINT * regRBX,
-               ADDRINT * regRCX,
-               ADDRINT * regRDX)
-{
-    log("[Real Execution] EAX: [%lx]\n", *regRAX); // read value
-    *regRAX = 0; // new value
-}
-
 VOID RecordMemWriteAfter(VOID * ip, VOID * addr, UINT32 size)
 {
     unsigned char* p = (unsigned char*)addr;
@@ -141,33 +121,17 @@ VOID Instruction(INS ins, VOID* v) {
             //log("[Read/Parse/Translate] [%lx] %s\n", addr - g_addrLow, strInst.c_str());
 	    ADDRINT offset = addr - g_addrLow;
 	    switch(offset){
-	    	// case 0xa5fe:
-	     //        INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EveryInst, 
-	     //        	IARG_INST_PTR, 
-      //               IARG_REG_REFERENCE, REG_RAX, 
-      //               IARG_REG_REFERENCE, REG_RBX, 
-      //               IARG_REG_REFERENCE, REG_RCX, 
-      //               IARG_REG_REFERENCE, REG_RDX,
-      //               IARG_END);
-		    // break;
-			case 0xae4e:
-			   {
-			    INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EveryInst2, 
-	            	IARG_INST_PTR, 
-                    IARG_REG_REFERENCE, REG_RAX, 
-                    IARG_REG_REFERENCE, REG_RBX, 
-                    IARG_REG_REFERENCE, REG_RCX, 
-                    IARG_REG_REFERENCE, REG_RDX,
-                    IARG_END);
-			   	INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EveryInst3, 
-	            	IARG_INST_PTR, 
-                    IARG_REG_REFERENCE, REG_RAX, 
-                    IARG_REG_REFERENCE, REG_RBX, 
-                    IARG_REG_REFERENCE, REG_RCX, 
-                    IARG_REG_REFERENCE, REG_RDX,
-                    IARG_END);
-			   }
-			break;
+			// case 0xae4e:
+			//    {
+			//    	INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EveryInst, 
+	  //           	IARG_INST_PTR, 
+   //                  IARG_REG_REFERENCE, REG_RAX, 
+   //                  IARG_REG_REFERENCE, REG_RBX, 
+   //                  IARG_REG_REFERENCE, REG_RCX, 
+   //                  IARG_REG_REFERENCE, REG_RDX,
+   //                  IARG_END);
+			//    }
+			// break;
 			case 0xae44:
 				ADDRINT target = addr - 0x44 + 0x70;
 				INS_InsertDirectJump(ins, IPOINT_BEFORE, target);

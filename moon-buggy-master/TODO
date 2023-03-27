@@ -1,0 +1,52 @@
+BUG FIXES:
+· Score file locking: recover from failure, i.e. use an alternative method.
+(What happens if two new score files are created at the same time?)
+Auf hyperion:
+/users/cip/sto/voss/test/bin/moon-buggy -c
+Fatal error: Cannot lock score file "/users/cip/sto/voss/test/com/moon-buggy/mbscore": Keine Sperren verfügbar
+· Fenstergrößenveränderungen beim Nameneingeben funktionieren mit
+ncurses-5 nicht gut.
+
+· Levels für Zwerge
+· Die Taste `j' sollte SPC immer und nicht nur meistens ersetzen
+können.
+· Speichere die Zeit in der Highscoreliste als GMT.  Wegen `mktime' in
+`parse_date' ist das schwierig.
+
+IMPROVEMENTS:
+· Ob ich den Cursor nicht sicherheitshalber zusätzlich zum Abschalten
+noch irgendwo in die Ecke setzen soll?  Das macht die Ausgabe ein
+winziges bisschen langsamer, aber auf seltsamen Terminals das Spielen
+angenehmer.
+· words of wisdom/advice
+· Loch in level 6.  Level 9 für Klaus.
+· `resize_ground' wird meist nicht zum "resizen" verwendet.
+Umbenennen?
+· Read the new revision of the FHS
+· Neue Funktion `warning', z.B. für die "Score file corrupted" Meldung
+· Compile-time option für Pausentaste
+· Den `fd_set' Teil von "configure.in" verbessern.  Zumindest
+sollte der cache verwendet werden.
+· `has_key' Ersatz für andere curses-Versionen einführen
+· Ist `addchstr' sinnvoll (wg. Geschwindigkeit)
+· Könnte man die Events einen Tick (oder 0.1 Sekunden) zu früh
+ausführen und nur das `doupdate' verzögern?  Wie ist das dann mit
+Tastendrücken während der letzen zehntel Sekunde?  Bringt das
+überhaupt eine signifikante Verbesserung?
+· Wäre eine asynchrone Behandlung von Tastendrücken sinnvoll?  (siehe
+"Interrupt Input" in der glibc-Anleitung)
+· Prüfsumme für das Scorefile.
+· Use a timeout when waiting for a file lock
+· Portabilität bekümmern
+· Ufos einführen
+· Internationalisieren
+· Man sollte die Tastenbelegungen ändern können
+· "Andreas K. Foerster" <akf1@akfoerster.de> suggests:
+    Wie wäre es mit einem System-Beep beim Crash?
+    Und ncurses kann doch auch Farbe...
+
+; Local Variables:
+; mode: auto-fill
+; paragraph-start: "[ 	]*$\\|^\f\\|·\\|[A-Z]+:$"
+; paragraph-separate: "[ 	]*$\\|^\f"
+; End:
