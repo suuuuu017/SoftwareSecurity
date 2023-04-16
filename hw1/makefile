@@ -1,5 +1,5 @@
 flappybird : flappybird.cpp
-	g++ -o $@ $^ -lncurses  
+	g++ -g -o $@ $^ -lncurses  
 
 clean:
 	rm -f flappybird
