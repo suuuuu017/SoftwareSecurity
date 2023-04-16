@@ -23,6 +23,7 @@ UINT64 ins_count = 0;
 ADDRINT g_addrLow, g_addrHigh;
 BOOL g_bMainExecLoaded = FALSE;
 FILE* g_fpLog = 0;
+unsigned short g_accessMap[0xFFFF];
 
 #define DBG_LOG g_fpLog
 
@@ -100,6 +101,15 @@ VOID RecordMemWriteAfter(VOID * ip, VOID * addr, UINT32 size)
     }
 }
 
+VOID RecordMemWriteAfter_Profile(VOID * ip, VOID * addr, UINT32 size, ADDRINT * regRSP)
+{
+    ADDRINT offset = ADDRINT(ip) - g_addrLow;
+
+    log("[MEMWRITE(AFTER)] %p (hitcount: %d), mem : %p (sz: %d) (stack: %p) ->",
+            offset, g_accessMap[offset], addr, size, *regRSP);
+    LogData(addr, size);
+}
+
 VOID RecordMemRead(VOID * ip, VOID * addr, UINT32 size)
 {
     log("[Real Execution] [MEMREAD] %p, memaddr: %p, size: %d\n", ip, addr, size);
@@ -116,51 +126,23 @@ VOID Instruction(INS ins, VOID* v) {
     ADDRINT addr = INS_Address(ins);
     
     if(g_bMainExecLoaded){
-	if (g_addrLow <= addr && addr < g_addrHigh){
-	    // minus g_addrLow to offset the addr to the same even ASLR is not disabled
-            log("[Read/Parse/Translate] [%lx] %s\n", addr - g_addrLow, strInst.c_str());
-	    ADDRINT offset = addr - g_addrLow;
-	    switch(offset){
+        if (g_addrLow <= addr && addr < g_addrHigh){
+            // minus g_addrLow to offset the addr to the same even ASLR is not disabled
+                log("[Read/Parse/Translate] [%lx] %s\n", addr - g_addrLow, strInst.c_str());
+            ADDRINT offset = addr - g_addrLow;
+            if (offset == 0x1c65 || offset == 0x1d9a){
+                if (INS_MemoryOperandIsWritten(ins, memOp))
+                {
+                    INS_InsertCall(
+                            ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter_Profile,
+                            IARG_INST_PTR,
+                            IARG_MEMORYOP_EA, memOp,
+                            IARG_MEMORYWRITE_SIZE,
+                            IARG_REG_REFERENCE, REG_RSP,
+                            IARG_END);
 
-		case 0x1c65:
-		case 0x1d0b:
-		//INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)docount, IARG_END);
-	            INS_InsertCall(ins, IPOINT_BEFORE, (AFUNPTR)EveryInst, IARG_INST_PTR, 
-                        IARG_REG_REFERENCE, REG_RAX, 
-                        IARG_REG_REFERENCE, REG_RBX, 
-                        IARG_REG_REFERENCE, REG_RCX, 
-                        IARG_REG_REFERENCE, REG_RDX,
-                        IARG_END);
-		    break;
-		case 0x1d9a:
-		   {
-		    UINT32 memOperands = INS_MemoryOperandCount(ins);
-		    // Iterate over each memory operand of the instruction.
-		    for (UINT32 memOp = 0; memOp < memOperands; memOp++)
-		    {
-			if (INS_MemoryOperandIsRead(ins, memOp))
-			{
-			    INS_InsertCall(
-				ins, IPOINT_BEFORE, (AFUNPTR)RecordMemRead,
-				IARG_INST_PTR,
-				IARG_MEMORYOP_EA, memOp,
-				IARG_MEMORYREAD_SIZE,
-				IARG_END);
-			}
-			if (INS_MemoryOperandIsWritten(ins, memOp))
-			{
-			    INS_InsertCall(
-                                ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter,
-                                IARG_INST_PTR,
-                                IARG_MEMORYOP_EA, memOp,
-                                IARG_MEMORYWRITE_SIZE,
-                                IARG_END);
-
-			}
-
-	       	    }	
-		   }
-	    }
+                }
+            }
         }
      }
 }
