@@ -155,7 +155,7 @@ VOID Instruction(INS ins, VOID* v) {
     if(g_bMainExecLoaded){
         if (g_addrLow <= addr && addr < g_addrHigh){
             // minus g_addrLow to offset the addr to the same even ASLR is not disabled
-                log("[Read/Parse/Translate] [%lx] %s\n", addr - g_addrLow, strInst.c_str());
+                //log("[Read/Parse/Translate] [%lx] %s\n", addr - g_addrLow, strInst.c_str());
             ADDRINT offset = addr - g_addrLow;
             if (offset == 0x1c65 || offset == 0x1d9a){
                 UINT32 memOperands = INS_MemoryOperandCount(ins);
