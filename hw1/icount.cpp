@@ -131,16 +131,21 @@ VOID Instruction(INS ins, VOID* v) {
                 log("[Read/Parse/Translate] [%lx] %s\n", addr - g_addrLow, strInst.c_str());
             ADDRINT offset = addr - g_addrLow;
             if (offset == 0x1c65 || offset == 0x1d9a){
-                if (INS_MemoryOperandIsWritten(ins, memOp))
-                {
-                    INS_InsertCall(
-                            ins, IPOINT_AFTER, (AFUNPTR)RecordMemWriteAfter_Profile,
-                            IARG_INST_PTR,
-                            IARG_MEMORYOP_EA, memOp,
-                            IARG_MEMORYWRITE_SIZE,
-                            IARG_REG_REFERENCE, REG_RSP,
-                            IARG_END);
+                UINT32 memOperands = INS_MemoryOperandCount(ins);
+                for (UINT32 memOp = 0; memOp < memOperands; memOp++) {
+                    if (INS_OperandIsImplicit(ins, memOp)) {
+                        continue;
+                    }
+                    if (INS_MemoryOperandIsWritten(ins, memOp)) {
+                        INS_InsertCall(
+                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Profile,
+                                IARG_INST_PTR,
+                                IARG_MEMORYOP_EA, memOp,
+                                IARG_MEMORYWRITE_SIZE,
+                                IARG_REG_REFERENCE, REG_RSP,
+                                IARG_END);
 
+                    }
                 }
             }
         }
