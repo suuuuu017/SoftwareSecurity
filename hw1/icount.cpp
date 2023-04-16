@@ -40,6 +40,33 @@ void log(const char * format, ...){
 	va_end(args);
 }
 
+void LogData(VOID* addr, UINT32 size)
+{
+    switch( size ) {
+        case 4:
+        {
+            unsigned int* pData = (unsigned int*)addr;
+            log("%ld\n", *pData);
+        }
+            break;
+        case 8:
+        {
+            unsigned long int* pData = (unsigned long int*)addr;
+            log("%lld\n", *pData);
+        }
+            break;
+        default:
+        {
+            unsigned char* pData = (unsigned char*)addr;
+            for( unsigned  int i = 0; i < size; i++, pData++ ) {
+                log("%02x ", (unsigned char)*pData);
+            }
+            log("\n");
+        }
+            break;
+    }
+}
+
 VOID ImageLoad(IMG img, VOID *v)
 {
     if( IMG_IsMainExecutable(img) ) {
