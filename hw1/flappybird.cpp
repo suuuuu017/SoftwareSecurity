@@ -16,19 +16,19 @@ using namespace std;
 #define WAIT_LIT 110000
 #define DOUBLE 2
 
-int* g_pcollision = 0;
-#define s_collision \
-        if (g_pcollision == 0) {\
-            g_pcollision = (int*)malloc(sizeof(int) * rand()%1000);\
-        } else {\
-            int* pnew = (int*)malloc(sizeof(int) * rand()%1000);\
-            *pnew = *g_pcollision;\
-            free(g_pcollision);\
-            g_pcollision = pnew;\
-        }\
-        *g_pcollision
-
-#define r_collision *g_pcollision
+//int* g_pcollision = 0;
+//#define s_collision \
+//        if (g_pcollision == 0) {\
+//            g_pcollision = (int*)malloc(sizeof(int) * rand()%1000);\
+//        } else {\
+//            int* pnew = (int*)malloc(sizeof(int) * rand()%1000);\
+//            *pnew = *g_pcollision;\
+//            free(g_pcollision);\
+//            g_pcollision = pnew;\
+//        }\
+//        *g_pcollision
+//
+//#define r_collision *g_pcollision
 
 void writeInfo(int row, int col);
 void drawPipe(int begin, int end, int pipeCol, int row);
