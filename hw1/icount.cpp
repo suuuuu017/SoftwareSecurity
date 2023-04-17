@@ -137,20 +137,20 @@ VOID RecordMemWriteAfter_Profile(VOID * ip, VOID * addr, UINT32 size, ADDRINT * 
     LogData(addr, size);
 }
 
-VOID RecordMemWriteAfter_Profile(VOID * ip, VOID * addr, UINT32 size, ADDRINT * regRSP)
+VOID RecordMemWriteAfter_Naive(VOID * ip, VOID * addr, UINT32 size, ADDRINT * regRSP)
 {
     ADDRINT offset = ADDRINT(ip) - g_addrLow;
 
-    if (0x7fffffffdf8c == (ADDRRINT)addr){
+    if (0x7fffffffdf8c == ADDRINT(addr)){
         log("[MEMWRITE] collision %p, mem: %p (sz: %d) ->",
                 offset, addr, size);
-        logData(addr, size);
+        LogData(addr, size);
         memset(addr, 0, size);
     }
-    if (0x7fffffffdf54 == (ADDRRINT)addr){
+    if (0x7fffffffdf54 == ADDRINT(addr)){
         log("[MEMWRITE] isOver %p, mem: %p (sz: %d) ->",
             offset, addr, size);
-        logData(addr, size);
+        LogData(addr, size);
         memset(addr, 0, size);
     }
 }
