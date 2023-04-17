@@ -178,7 +178,7 @@ int main() {
 		//1c80 is before 12121212
 		//1d3c:       e8 80 08 00 00          callq  25c1 <_Z16controlCollisioniiiii>
 
-		s_collision = controlCollision(pipeCol1, birdCol, birdRow, crackStart1,
+		collision = controlCollision(pipeCol1, birdCol, birdRow, crackStart1,
 									 crackFinish1); 
 //        {
 //            printf("%d\n", 0x12121212);
