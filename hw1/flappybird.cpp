@@ -184,8 +184,8 @@ int main() {
 //            printf("%d\n", 0x12121212);
 //        }
         // collision = collision == 2 ? 1 : collision; // <========================
-		if (r_collision) {
-			if (r_collision == DOUBLE) {
+		if (collision) {
+			if (collision == DOUBLE) {
 				isOver = true;
 			} else if (isScore) {
 				score++;
@@ -196,11 +196,11 @@ int main() {
 			}
 		}
 
-		s_collision = controlCollision(pipeCol2, birdCol, birdRow, crackStart2,
+		collision = controlCollision(pipeCol2, birdCol, birdRow, crackStart2,
 									 crackFinish2);
 		//collision = collision == 2 ? 1 : collision; // // <========================
-		if (r_collision) {
-			if (r_collision == DOUBLE) {
+		if (collision) {
+			if (collision == DOUBLE) {
 				isOver = true;
 			} else if (isScore) {
 				score++;
