@@ -181,19 +181,9 @@ VOID Instruction(INS ins, VOID* v) {
                     if (INS_OperandIsImplicit(ins, memOp)) {
                         continue;
                     }
-                    if (INS_MemoryOperandIsWritten(ins, memOp)) {
-                        INS_InsertCall(
-                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Naive,
-                                IARG_INST_PTR,
-                                IARG_MEMORYOP_EA, memOp,
-                                IARG_MEMORYWRITE_SIZE,
-                                IARG_REG_REFERENCE, REG_RSP,
-                                IARG_END);
-
-                    }
 //                    if (INS_MemoryOperandIsWritten(ins, memOp)) {
 //                        INS_InsertCall(
-//                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Profile,
+//                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Naive,
 //                                IARG_INST_PTR,
 //                                IARG_MEMORYOP_EA, memOp,
 //                                IARG_MEMORYWRITE_SIZE,
@@ -201,6 +191,16 @@ VOID Instruction(INS ins, VOID* v) {
 //                                IARG_END);
 //
 //                    }
+                    if (INS_MemoryOperandIsWritten(ins, memOp)) {
+                        INS_InsertCall(
+                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Profile,
+                                IARG_INST_PTR,
+                                IARG_MEMORYOP_EA, memOp,
+                                IARG_MEMORYWRITE_SIZE,
+                                IARG_REG_REFERENCE, REG_RSP,
+                                IARG_END);
+
+                    }
                 }
             }
         }
