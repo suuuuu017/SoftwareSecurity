@@ -16,19 +16,19 @@ using namespace std;
 #define WAIT_LIT 110000
 #define DOUBLE 2
 
-//int* g_pcollision = 0;
-//#define s_collision \
-//        if (g_pcollision == 0) {\
-//            g_pcollision = (int*)malloc(sizeof(int) * rand()%1000);\
-//        } else {\
-//            int* pnew = (int*)malloc(sizeof(int) * rand()%1000);\
-//            *pnew = *g_pcollision;\
-//            free(g_pcollision);\
-//            g_pcollision = pnew;\
-//        }\
-//        *g_pcollision
-//
-//#define r_collision *g_pcollision
+int* g_pcollision = 0;
+#define s_collision \
+        if (g_pcollision == 0) {\
+            g_pcollision = (int*)malloc(sizeof(int) * rand()%1000);\
+        } else {\
+            int* pnew = (int*)malloc(sizeof(int) * rand()%1000);\
+            *pnew = *g_pcollision;\
+            free(g_pcollision);\
+            g_pcollision = pnew;\
+        }\
+        *g_pcollision
+
+#define r_collision *g_pcollision
 
 void writeInfo(int row, int col);
 void drawPipe(int begin, int end, int pipeCol, int row);
@@ -178,14 +178,14 @@ int main() {
 		//1c80 is before 12121212
 		//1d3c:       e8 80 08 00 00          callq  25c1 <_Z16controlCollisioniiiii>
 
-		collision = controlCollision(pipeCol1, birdCol, birdRow, crackStart1,
+		s_collision = controlCollision(pipeCol1, birdCol, birdRow, crackStart1,
 									 crackFinish1); 
 //        {
 //            printf("%d\n", 0x12121212);
 //        }
         // collision = collision == 2 ? 1 : collision; // <========================
-		if (collision) {
-			if (collision == DOUBLE) {
+		if (r_collision) {
+			if (r_collision == DOUBLE) {
 				isOver = true;
 			} else if (isScore) {
 				score++;
@@ -196,11 +196,11 @@ int main() {
 			}
 		}
 
-		collision = controlCollision(pipeCol2, birdCol, birdRow, crackStart2,
+		s_collision = controlCollision(pipeCol2, birdCol, birdRow, crackStart2,
 									 crackFinish2);
 		//collision = collision == 2 ? 1 : collision; // // <========================
-		if (collision) {
-			if (collision == DOUBLE) {
+		if (r_collision) {
+			if (r_collision == DOUBLE) {
 				isOver = true;
 			} else if (isScore) {
 				score++;
