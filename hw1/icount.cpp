@@ -137,9 +137,27 @@ VOID RecordMemWriteAfter_Profile(VOID * ip, VOID * addr, UINT32 size, ADDRINT * 
     LogData(addr, size);
 }
 
+VOID RecordMemWriteAfter_Profile(VOID * ip, VOID * addr, UINT32 size, ADDRINT * regRSP)
+{
+    ADDRINT offset = ADDRINT(ip) - g_addrLow;
+
+    if (0x7fffffffdf8c == (ADDRRINT)addr){
+        log("[MEMWRITE] collision %p, mem: %p (sz: %d) ->",
+                offset, addr, size);
+        logData(addr, size);
+        memset(addr, 0, size);
+    }
+    if (0x7fffffffdf54 == (ADDRRINT)addr){
+        log("[MEMWRITE] isOver %p, mem: %p (sz: %d) ->",
+            offset, addr, size);
+        logData(addr, size);
+        memset(addr, 0, size);
+    }
+}
+
 VOID RecordMemRead(VOID * ip, VOID * addr, UINT32 size)
 {
-    log("[Real Execution] [MEMREAD] %p, memaddr: %p, size: %d\n", ip, addr, size);
+    // log("[Real Execution] [MEMREAD] %p, memaddr: %p, size: %d\n", ip, addr, size);
     unsigned char* p = (unsigned char*)addr;
     for( unsigned  int i = 0; i < size; i++ ) {
         log("%02x ", (unsigned char)*p);
@@ -165,7 +183,7 @@ VOID Instruction(INS ins, VOID* v) {
                     }
                     if (INS_MemoryOperandIsWritten(ins, memOp)) {
                         INS_InsertCall(
-                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Profile,
+                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Naive,
                                 IARG_INST_PTR,
                                 IARG_MEMORYOP_EA, memOp,
                                 IARG_MEMORYWRITE_SIZE,
@@ -173,6 +191,16 @@ VOID Instruction(INS ins, VOID* v) {
                                 IARG_END);
 
                     }
+//                    if (INS_MemoryOperandIsWritten(ins, memOp)) {
+//                        INS_InsertCall(
+//                                ins, IPOINT_AFTER, (AFUNPTR) RecordMemWriteAfter_Profile,
+//                                IARG_INST_PTR,
+//                                IARG_MEMORYOP_EA, memOp,
+//                                IARG_MEMORYWRITE_SIZE,
+//                                IARG_REG_REFERENCE, REG_RSP,
+//                                IARG_END);
+//
+//                    }
                 }
             }
         }
