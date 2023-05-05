@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
+  </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated />
   </component>
@@ -10,8 +36,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a205a42a-1f82-46f3-b1f5-a26f52061e5e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/emul.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw2/icount.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/hw2/icount.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw1/flappybird" beforeDir="false" afterPath="$PROJECT_DIR$/hw1/flappybird" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/moon-buggy-master/.moon.S.swp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,20 +53,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="JupyterTrust" id="7cd61515-4383-449e-adce-aed23337334f" />
   <component name="ProjectId" id="2LhrFftclNcAL9wOwl3FXsdI7mk" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="cf.first.check.clang-format" value="false" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="sshConfigs" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/suuuuu017/CLionProjects/SS"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -52,16 +82,37 @@
       <workItem from="1676334214610" duration="5417000" />
       <workItem from="1676418153829" duration="6309000" />
       <workItem from="1678740956087" duration="4342000" />
+      <workItem from="1682716294893" duration="1122000" />
+      <workItem from="1683266734550" duration="316000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
-    <state x="272" y="88" key="SettingsEditor" timestamp="1676334111736">
+    <state width="315" height="442" key="Diff.GoToChangePopup" timestamp="1682716438965">
       <screen x="0" y="25" width="1440" height="875" />
     </state>
-    <state x="272" y="88" key="SettingsEditor/0.25.1440.875@0.25.1440.875" timestamp="1676334111736" />
+    <state width="315" height="442" key="Diff.GoToChangePopup/0.25.1440.875@0.25.1440.875" timestamp="1682716438965" />
+    <state x="100" y="125" width="1240" height="675" key="DiffContextDialog" timestamp="1682716697768">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="100" y="125" width="1240" height="675" key="DiffContextDialog/0.25.1440.875@0.25.1440.875" timestamp="1682716697768" />
+    <state x="272" y="88" key="SettingsEditor" timestamp="1683266925203">
+      <screen x="0" y="25" width="1440" height="875" />
+    </state>
+    <state x="272" y="88" key="SettingsEditor/0.25.1440.875@0.25.1440.875" timestamp="1683266925203" />
   </component>
 </project>

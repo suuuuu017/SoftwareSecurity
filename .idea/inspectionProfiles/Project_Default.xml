@@ -1,0 +1,36 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CythonUsageBeforeDeclarationInspection" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="PyAssignmentToLoopOrWithParameterInspection" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="PyIncorrectDocstringInspection" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="PyMissingConstructorInspection" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="ERROR" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="17">
+            <item index="0" class="java.lang.String" itemvalue="timm" />
+            <item index="1" class="java.lang.String" itemvalue="tensorboard" />
+            <item index="2" class="java.lang.String" itemvalue="moviepy" />
+            <item index="3" class="java.lang.String" itemvalue="torch" />
+            <item index="4" class="java.lang.String" itemvalue="segmentation-models-pytorch" />
+            <item index="5" class="java.lang.String" itemvalue="numpy" />
+            <item index="6" class="java.lang.String" itemvalue="torchvision" />
+            <item index="7" class="java.lang.String" itemvalue="tqdm" />
+            <item index="8" class="java.lang.String" itemvalue="scikit-image" />
+            <item index="9" class="java.lang.String" itemvalue="pqdict" />
+            <item index="10" class="java.lang.String" itemvalue="bootstrapped" />
+            <item index="11" class="java.lang.String" itemvalue="natsort" />
+            <item index="12" class="java.lang.String" itemvalue="gin-config" />
+            <item index="13" class="java.lang.String" itemvalue="pytorch3d" />
+            <item index="14" class="java.lang.String" itemvalue="matplotlib" />
+            <item index="15" class="java.lang.String" itemvalue="ipython" />
+            <item index="16" class="java.lang.String" itemvalue="jupyterlab" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyProtectedMemberInspection" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="PyUnboundLocalVariableInspection" enabled="true" level="ERROR" enabled_by_default="true" />
+  </profile>
+</component>
